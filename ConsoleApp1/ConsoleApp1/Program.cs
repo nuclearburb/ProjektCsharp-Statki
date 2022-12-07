@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Text;
 
-string login = null;
-string haslo = null;
+string login;
+string haslo;
 
 Start:
 Console.WriteLine("Wpisz 1, jeśli chcesz stworzyć nowego użytkownika");
@@ -24,7 +24,7 @@ if (wybor == 1)
             haslo, login
         };
 
-    await File.WriteAllLinesAsync("user" + login + ".txt", lines);
+    await File.WriteAllLinesAsync("user" + login + ".txt", lines); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
 }
 
 else if (wybor == 2)
@@ -35,14 +35,16 @@ else if (wybor == 2)
     Console.WriteLine("Wpisz hasło");
     haslo = Console.ReadLine();
     Console.WriteLine(login);
-    string[] lines =
+    string[] test = System.IO.File.ReadAllLines("user" + login + ".txt");
+        if (test[1] == haslo)
         {
-            haslo, login
-        };
+            Console.WriteLine("zalogowano");
+        }
 
-    await File.WriteAllLinesAsync("user" + login + ".txt", lines);
 }
 
 else
     goto Start;
+
+
 
