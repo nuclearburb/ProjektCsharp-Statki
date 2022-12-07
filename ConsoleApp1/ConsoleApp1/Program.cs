@@ -18,10 +18,9 @@ if (wybor == 1)
     Console.WriteLine(login);
     Console.WriteLine("Wpisz hasło");
     haslo = Console.ReadLine();
-    Console.WriteLine(login);
     string[] lines =
         {
-            haslo, login
+            login, haslo
         };
 
     await File.WriteAllLinesAsync("user" + login + ".txt", lines); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
@@ -34,17 +33,16 @@ else if (wybor == 2)
     Console.WriteLine(login);
     Console.WriteLine("Wpisz hasło");
     haslo = Console.ReadLine();
-    Console.WriteLine(login);
     string[] test = System.IO.File.ReadAllLines("user" + login + ".txt");
     if (test[1] == haslo)
     {
         Console.WriteLine("zalogowano");
     }
-
-
-
     else
+    {
         goto Start;
-};
+    };
+}
+
 
 

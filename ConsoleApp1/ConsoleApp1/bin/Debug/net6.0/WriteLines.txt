@@ -1,3 +1,0 @@
-User login
-haslo
-login
