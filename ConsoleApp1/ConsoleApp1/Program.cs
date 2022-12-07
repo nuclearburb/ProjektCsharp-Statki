@@ -36,15 +36,15 @@ else if (wybor == 2)
     haslo = Console.ReadLine();
     Console.WriteLine(login);
     string[] test = System.IO.File.ReadAllLines("user" + login + ".txt");
-        if (test[1] == haslo)
-        {
-            Console.WriteLine("zalogowano");
-        }
+    if (test[1] == haslo)
+    {
+        Console.WriteLine("zalogowano");
+    }
 
-}
 
-else
-    goto Start;
 
+    else
+        goto Start;
+};
 
 
