@@ -9,15 +9,15 @@ string haslo;
 
 
 Start:
-Console.WriteLine("Wpisz 1, jeśli chcesz stworzyć nowego użytkownika");
-Console.WriteLine("Wpisz 2, jeśli chcesz się zalogować");
+Console.WriteLine("Wpisz 1, jesli chcesz stworzyc nowego uzytkownika");
+Console.WriteLine("Wpisz 2, jesli chcesz sie zalogowac");
 int wybor = Int32.Parse(Console.ReadLine());
 
 if (wybor == 1)
 {
     Console.WriteLine("Wpisz login");
     login = Console.ReadLine();
-    Console.WriteLine("Wpisz hasło");
+    Console.WriteLine("Wpisz haslo");
     haslo = Console.ReadLine();
     string[] lines =
         {
@@ -36,7 +36,7 @@ else if (wybor == 2)
     {
         typeOfUser = "admin";
     };
-    Console.WriteLine("Wpisz hasło");
+    Console.WriteLine("Wpisz haslo");
     haslo = Console.ReadLine();
     string[] test = System.IO.File.ReadAllLines(typeOfUser + login + ".txt");
     if (test[1] == haslo)
@@ -51,10 +51,10 @@ else if (wybor == 2)
 
 if(typeOfUser=="admin")
 {
-
+    Console.WriteLine("Witaj adminie");
 };
 
 if (typeOfUser != "admin")
 {
-
+    Console.WriteLine("Witaj uzytkowiku");
 };
