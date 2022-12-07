@@ -25,6 +25,7 @@ if (wybor == 1)
         };
 
     await File.WriteAllLinesAsync("user" + login + ".txt", lines); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
+    goto Start;
 }
 
 else if (wybor == 2)
