@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 string typeOfUser;
@@ -91,7 +92,18 @@ if (typeOfUser == "admin")
             break;
         case 3:
             {
-
+                int rodzaj = 0;
+                Console.WriteLine("Podaj rodzaj kontenera (40/60)");
+                rodzaj = int.Parse(Console.ReadLine());
+                if (rodzaj == 40)
+                {
+                    Console.WriteLine("cos40");
+                }
+                else if (rodzaj == 60)
+                {
+                    Console.WriteLine("cos60");
+                }
+                Console.ReadKey(true);
             }
             break;
         case 4:
