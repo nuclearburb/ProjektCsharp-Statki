@@ -94,11 +94,9 @@ if (typeOfUser == "admin")
     panelAdmina:
 
     Console.WriteLine("1. Podglad calej floty");
-    Console.WriteLine("2. Podglad zawartosci statkow, lokalizacja");
-    Console.WriteLine("3. Dodaj kontener");
-    Console.WriteLine("4. Zarzadzanie statkiem");
-    Console.WriteLine("5. Zmiana danych uzytkownika");
-    Console.WriteLine("6. Wyloguj");
+    Console.WriteLine("2. Zarzadzanie statkiem");
+    Console.WriteLine("3. Zmiana danych uzytkownika");
+    Console.WriteLine("4. Wyloguj");
 
     wybor = Int32.Parse(Console.ReadLine());
 
@@ -111,31 +109,44 @@ if (typeOfUser == "admin")
             break;
         case 2:
             {
+                Console.Write("Podaj numer statku: ");
+                int wyborStatku = Int32.Parse(Console.ReadLine()); // 1 lub 2
 
-            }
-            break;
-        case 3:
-            {
-                Console.WriteLine("Podaj numer statku: "); // 1 lub 2
-                int wyborStatku = Int32.Parse(Console.ReadLine());
+                int typKontenera = 0;
+                while (typKontenera != 40 && typKontenera != 60)
+                {
+                    Console.Write("Podaj typ kontenera (40 albo 60): ");
+                    typKontenera = Int32.Parse(Console.ReadLine()); // 40 lub 60;
+                }
 
-                int typStrefy = 0; // 0 lub 1;
-                int maxIloscStrefy = 0;
-                int iloscZaladunku = 0;
+                int maxIloscStrefy = 0; // to do
+                int iloscZaladunku = 0; // to do
                 float waga = 0; // w tonach
 
                 int[] ilosci = new int[8];
 
+
                 for(int i = 0; i < ilosci.Length; i++)
                 {
-                    Console.Write($"Podaj ilosc do kontenera z zawartością {nazwy[i]}: ");
+                    Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[i]}: ");
                     ilosci[i] = Int32.Parse(Console.ReadLine());
 
-                    waga += ilosci[i] * wagi[i]; // dodaj do wagi całkowitej wage kontenera
+                    if(typKontenera == 40)
+                        waga += ilosci[i] * wagi[i] * 0.75f; // dodaj do wagi całkowitej wage kontenera. małe kontenery są 25% lzejsze
+                    else
+                        waga += ilosci[i] * wagi[i]; // dodaj do wagi całkowitej wage kontenera
+                }
+
+                string statek = $"{maxIloscStrefy} {iloscZaladunku} {waga}";
+
+                for (int i = 0; i < ilosci.Length; i++)
+                {
+                    statek += $" {ilosci[i]}";
                 }
 
                 Console.WriteLine("Calkowita waga: " + waga);
 
+                File.WriteAllLines("statek" + wyborStatku + ".txt", new string[] { statek }); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
 
                 /*
                 int rodzaj = 0;
@@ -153,12 +164,7 @@ if (typeOfUser == "admin")
                 */
             }
             break;
-        case 4:
-            {
-
-            }
-            break;
-        case 5:
+        case 3:
             {
                 Console.Write("Podaj uzytkownika: ");
                 login = Console.ReadLine();
@@ -180,7 +186,7 @@ if (typeOfUser == "admin")
                 File.WriteAllLines("user" + login + ".txt", lines); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
             }
             break;
-        case 6:
+        case 4:
             {
                 goto start;
             }

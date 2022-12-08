@@ -1,0 +1,5 @@
+7 kontenerów z elektroniką
+for idzie przez każdą strefe i sprawdza komórkę z elektroniką, zapisuje do zmiennej numer indeksu
+do najmniej obciążonej strefy dodaje jeden kontener
+wraca na początek, zmieniając 7 na 6
+i tak aż do 0 kontenerów
