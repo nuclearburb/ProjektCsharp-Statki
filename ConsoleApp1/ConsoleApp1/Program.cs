@@ -92,6 +92,11 @@ if (typeOfUser == "admin")
             break;
         case 3:
             {
+                int typStrefy = 0; // 0 lub 1;
+                int maxIloscStrefy = 0;
+
+
+                /*
                 int rodzaj = 0;
                 Console.WriteLine("Podaj rodzaj kontenera (40/60)");
                 rodzaj = int.Parse(Console.ReadLine());
@@ -104,6 +109,7 @@ if (typeOfUser == "admin")
                     Console.WriteLine("cos60");
                 }
                 Console.ReadKey(true);
+                */
             }
             break;
         case 4:
