@@ -8,6 +8,30 @@ string typeOfUser;
 string login;
 string haslo;
 
+string[] nazwy = new string[8]
+{
+    "Elektronika",
+    "Zabawki",
+    "Jedzenie",
+    "Plastiki",
+    "Chemia",
+    "AGD",
+    "Pojazdy",
+    "Ubrania"
+};
+
+float[] wagi = new float[8]
+{
+    3f,
+    1f,
+    1f,
+    3f,
+    5f,
+    10f,
+    20f,
+    0.5f
+};
+
 
 start:
 typeOfUser = "user";
@@ -92,12 +116,25 @@ if (typeOfUser == "admin")
             break;
         case 3:
             {
+                Console.WriteLine("Podaj numer statku: "); // 1 lub 2
+                int wyborStatku = Int32.Parse(Console.ReadLine());
+
                 int typStrefy = 0; // 0 lub 1;
                 int maxIloscStrefy = 0;
                 int iloscZaladunku = 0;
                 float waga = 0; // w tonach
 
                 int[] ilosci = new int[8];
+
+                for(int i = 0; i < ilosci.Length; i++)
+                {
+                    Console.Write($"Podaj ilosc do kontenera z zawartością {nazwy[i]}: ");
+                    ilosci[i] = Int32.Parse(Console.ReadLine());
+
+                    waga += ilosci[i] * wagi[i]; // dodaj do wagi całkowitej wage kontenera
+                }
+
+                Console.WriteLine("Calkowita waga: " + waga);
 
 
                 /*
