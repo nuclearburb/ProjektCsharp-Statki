@@ -1,0 +1,5 @@
+1 60 32 87 // typ strefy, ilosc max, ilosc zal, waga w tonach
+gruz 5 // ilosc kontenerow danego typu
+
+
+gruz 2
