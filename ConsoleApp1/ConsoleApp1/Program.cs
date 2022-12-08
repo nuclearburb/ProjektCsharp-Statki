@@ -94,6 +94,10 @@ if (typeOfUser == "admin")
             {
                 int typStrefy = 0; // 0 lub 1;
                 int maxIloscStrefy = 0;
+                int iloscZaladunku = 0;
+                float waga = 0; // w tonach
+
+                int[] ilosci = new int[8];
 
 
                 /*
