@@ -109,6 +109,7 @@ if (typeOfUser == "admin")
             break;
         case 2:
             {
+                // to do: pozwolić na wybór tylko 1 lub 2
                 Console.Write("Podaj numer statku: ");
                 int wyborStatku = Int32.Parse(Console.ReadLine()); // 1 lub 2
 
@@ -119,34 +120,45 @@ if (typeOfUser == "admin")
                     typKontenera = Int32.Parse(Console.ReadLine()); // 40 lub 60;
                 }
 
-                int maxIloscStrefy = 0; // to do
-                int iloscZaladunku = 0; // to do
-                float waga = 0; // w tonach
-
-                int[] ilosci = new int[8];
-
-
-                for(int i = 0; i < ilosci.Length; i++)
+                int iloscZaladunku = 300;
+                int maxIloscStrefy = 100;
+                int iloscStref = 5;
+                if(typKontenera == 60)
                 {
-                    Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[i]}: ");
-                    ilosci[i] = Int32.Parse(Console.ReadLine());
-
-                    if(typKontenera == 40)
-                        waga += ilosci[i] * wagi[i] * 0.75f; // dodaj do wagi całkowitej wage kontenera. małe kontenery są 25% lzejsze
-                    else
-                        waga += ilosci[i] * wagi[i]; // dodaj do wagi całkowitej wage kontenera
+                    maxIloscStrefy = 60;
+                    iloscStref = 4;
                 }
 
-                string statek = $"{maxIloscStrefy} {iloscZaladunku} {waga}";
-
-                for (int i = 0; i < ilosci.Length; i++)
+                string[] linie = new string[iloscStref];
+                for (int i = 0; i < iloscStref; i++)
                 {
-                    statek += $" {ilosci[i]}";
+                    float waga = 0; // w tonach
+
+                    int[] ilosci = new int[8];
+                    for (int j = 0; j < ilosci.Length; j++)
+                    {
+                        Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
+                        ilosci[j] = Int32.Parse(Console.ReadLine());
+
+                        if (typKontenera == 40)
+                            waga += ilosci[j] * wagi[j] * 0.75f; // dodaj do wagi całkowitej wage kontenera. małe kontenery są 25% lzejsze
+                        else
+                            waga += ilosci[j] * wagi[j]; // dodaj do wagi całkowitej wage kontenera
+                    }
+
+                    string strefa = $"{maxIloscStrefy} {iloscZaladunku} {waga}";
+
+                    for (int j = 0; j < ilosci.Length; j++)
+                    {
+                        strefa += $" {ilosci[j]}";
+                    }
+
+                    Console.WriteLine("Calkowita waga strefy: " + waga);
+
+                    linie[i] = strefa;
                 }
 
-                Console.WriteLine("Calkowita waga: " + waga);
-
-                File.WriteAllLines("statek" + wyborStatku + ".txt", new string[] { statek }); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
+                File.WriteAllLines("statek" + wyborStatku + ".txt", linie); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
 
                 /*
                 int rodzaj = 0;
