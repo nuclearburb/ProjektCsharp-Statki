@@ -16,7 +16,15 @@ int wybor = Int32.Parse(Console.ReadLine());
 if (wybor == 1)
 {
     Console.WriteLine("Wpisz login");
-    login = Console.ReadLine(); // ZROBIC: JEZELI ISTNIEJE JUZ UZYTKOWNIK TO NIE ROBIC NOWEGO
+    login = Console.ReadLine();
+
+    string sciezkaPliku = "user" + login + ".txt";
+    if (File.Exists(sciezkaPliku)) // sprawdzanie czy dane konto juz istnieje
+    {
+        Console.WriteLine("Dany użytkownik już istnieje");
+        goto Start;
+    }
+
     Console.WriteLine("Wpisz haslo");
     haslo = Console.ReadLine();
     string[] lines =
@@ -33,7 +41,7 @@ else if (wybor == 2)
     Console.WriteLine("Wpisz login");
     login = Console.ReadLine();
     Console.WriteLine(login);
-    if(login == "admin")
+    if (login == "admin")
     {
         typeOfUser = "admin";
     };
@@ -42,7 +50,7 @@ else if (wybor == 2)
     string[] test = System.IO.File.ReadAllLines(typeOfUser + login + ".txt");  // Uzytkownicy oraz admin znajduja sie jako pliki tekstowe w folderze z programem
     if (test[1] == haslo)
     {
-        Console.WriteLine("Zalogowano"); 
+        Console.WriteLine("Zalogowano");
     }
     else
     {
@@ -50,15 +58,24 @@ else if (wybor == 2)
     };
 }
 
-if(typeOfUser=="admin")
+if (typeOfUser == "admin")
 {
     Console.WriteLine("Witaj adminie");
     wybor = Int32.Parse(Console.ReadLine());
 
-};
 
-if (typeOfUser != "admin")
+
+
+
+}
+
+else
 {
     Console.WriteLine("Witaj uzytkowiku");
     wybor = Int32.Parse(Console.ReadLine());
+
+
+
+
+
 };
