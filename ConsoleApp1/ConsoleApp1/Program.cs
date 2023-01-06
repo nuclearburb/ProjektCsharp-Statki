@@ -154,6 +154,7 @@ if (typeOfUser == "admin")
                     }
 
                     Console.WriteLine("Calkowita waga strefy: " + waga);
+                    Console.WriteLine("Numer strefy "+ i+1);
 
                     linie[i] = strefa;
                 }
