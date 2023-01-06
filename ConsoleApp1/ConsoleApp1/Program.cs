@@ -113,6 +113,23 @@ if (typeOfUser == "admin")
                 Console.Write("Podaj numer statku: ");
                 int wyborStatku = Int32.Parse(Console.ReadLine()); // 1 lub 2
 
+                string[,] array = new string[4, 11];
+
+                var lines = File.ReadAllLines("statek1.txt");
+                for (int x = 0; x < 4; x++)
+                {
+                    Console.WriteLine(lines[x]);
+                    string[] words = lines[x].Split(' ');
+
+                    int indeks = 0;
+                    foreach (var word in words)
+                    {
+                        System.Console.WriteLine($"<{word}>");
+                        indeks++;
+
+                    }
+                };
+
                 int typKontenera = 0;
                 while (typKontenera != 40 && typKontenera != 60)
                 {
