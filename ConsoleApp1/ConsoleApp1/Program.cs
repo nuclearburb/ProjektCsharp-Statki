@@ -115,7 +115,7 @@ if (typeOfUser == "admin")
 
                 string[,] array = new string[4, 11];
 
-                var lines = File.ReadAllLines("statek1.txt");
+                var lines = File.ReadAllLines("statek1.txt"); // przepisuje plik tekstowy do tabelki
                 for (int x = 0; x < 4; x++)
                 {
                     Console.WriteLine(lines[x]);
@@ -125,10 +125,11 @@ if (typeOfUser == "admin")
                     foreach (var word in words)
                     {
                         System.Console.WriteLine($"<{word}>");
+                        array[x,indeks] = word;
                         indeks++;
-
                     }
                 };
+
 
                 int typKontenera = 0;
                 while (typKontenera != 40 && typKontenera != 60)
