@@ -244,6 +244,9 @@ if (typeOfUser == "admin")
                     }
                 }
 
+                //ZROBIĆ - LICZENIE WAG
+                //I USUWANIE KONTENEROW
+
                 string[,] bufor = new string[4, 13];
                 for (int k = 0; k < 4; k++)
                 {
