@@ -84,7 +84,7 @@ else if (wybor == 2)
     }
     else
     {
-        Console.Write("Nieprawidlowe haslo!");
+        Console.WriteLine("Nieprawidlowe haslo!");
         goto start; // wraca na gore
     };
 }
