@@ -34,7 +34,6 @@ float[] wagi = new float[8]
     0.5f
 };
 
-
 start:
 typeOfUser = "user";
 login = "";
@@ -81,6 +80,7 @@ else if (wybor == 2)
     if (test[1] == haslo)
     {
         Console.WriteLine("Zalogowano");
+        Console.WriteLine();
     }
     else
     {
@@ -106,12 +106,48 @@ if (typeOfUser == "admin")
     {
         case 1:
             {
+                string[] kolumny = new string[12]
+                {
+                    "Typ Strefy",
+                    "Waga Max",
+                    "Ilosc Max",
+                    "Waga",
+                    "Elektronika",
+                    "Zabawki",
+                    "Jedzenie",
+                    "Plastiki",
+                    "Chemia",
+                    "AGD",
+                    "Pojazdy",
+                    "Ubrania"
+                };
+                Console.Write("Podaj numer statku: ");
+                int wyborStatku = Int32.Parse(Console.ReadLine()); // 1 lub 2
 
+                int[,] statek = new int[4, 13];
+
+                var lines = File.ReadAllLines("statek" + wyborStatku + ".txt"); // przepisuje plik tekstowy do tabelki
+                Console.WriteLine("Statek nr: " + wyborStatku);
+                Console.WriteLine("|Typ Strefy|Waga Max|Ilosc Max|Waga|Elektronika|Zabawki|Jedzenie|Plastiki|Chemia|AGD|Pojazdy|Ubrania|");
+
+                for (int x = 0; x < 4; x++)
+                {
+                    string[] words = lines[x].Split(' ');
+                    int i = 0;
+                    foreach (var word in words)
+                    {
+                        Console.Write("|");
+                        int dlugosc = kolumny[i].Length;
+                        Console.Write(word.PadRight(dlugosc));
+                        i++;
+                    }
+                    Console.WriteLine("|");
+                };
+                Console.WriteLine();
             }
             break;
         case 2:
             {
-                // to do: pozwolić na wybór tylko 1 lub 2
                 Console.Write("Podaj numer statku: ");
                 int wyborStatku = Int32.Parse(Console.ReadLine()); // 1 lub 2
 
