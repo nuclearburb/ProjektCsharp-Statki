@@ -113,7 +113,7 @@ if (typeOfUser == "admin")
                 Console.Write("Podaj numer statku: ");
                 int wyborStatku = Int32.Parse(Console.ReadLine()); // 1 lub 2
 
-                string[,] array = new string[4, 11];
+                int[,] statek = new int[4, 12];
 
                 var lines = File.ReadAllLines("statek"+wyborStatku+".txt"); // przepisuje plik tekstowy do tabelki
                 for (int x = 0; x < 4; x++)
@@ -125,10 +125,11 @@ if (typeOfUser == "admin")
                     foreach (var word in words)
                     {
                         System.Console.WriteLine($"<{word}>");
-                        array[x,indeks] = word;
+                        statek[x,indeks] = int.Parse(word);
                         indeks++;
                     }
                 };
+
 
 
                 int typKontenera = 0;
@@ -139,20 +140,65 @@ if (typeOfUser == "admin")
                 }
 
                 int iloscZaladunku = 300;
+
                 int maxIloscStrefy = 100;
                 int iloscStref = 5;
-                if(typKontenera == 60)
+                float waga = 0;
+                int[] ilosci = new int[8];
+                if (typKontenera == 60)
                 {
-                    maxIloscStrefy = 60;
-                    iloscStref = 4;
+                  
+                        for (int j = 0; j < 7; j++)
+                        {
+                            B:
+                            Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
+                            ilosci[j] = Int32.Parse(Console.ReadLine());
+                            waga += ilosci[j] * wagi[j];
+                            if (400 < (statek[2, 5]+ statek[3, 5]+ ilosci[j]))
+                            {
+                                Console.WriteLine("Za duża ilość kontenerów");
+                                goto B;
+                            }
+                            if (waga + statek[2, 3] + statek[3, 3] > 1000)
+                            {
+                                Console.WriteLine("Zbyt duża waga");
+                                goto B;
+                            }
+                            while (ilosci[j]!=0)
+                            {
+
+                                if ((statek[2, j + 5] + 1) < 200)
+                                {
+                                    statek[2, j + 5] = statek[2, j + 5] + 1;
+                                    ilosci[j] = ilosci[j] - 1;
+                                }
+
+                                if ((statek[3, j + 5] + 1) < 200 && ilosci[j]>0)
+                                {
+                                    statek[3, j + 5] = statek[3, j + 5] + 1;
+                                    ilosci[j] = ilosci[j] - 1;
+                                }
+                                
+
+                            }
+                            
+
+                    }
+                    Console.WriteLine(statek[2, 5]);
+                    Console.WriteLine(statek[3, 5]);
+                    Console.WriteLine(statek[2, 11]);
+                    Console.WriteLine(statek[3, 11]);
+
+
                 }
 
+                /*
                 string[] linie = new string[iloscStref];
                 for (int i = 0; i < iloscStref; i++)
                 {
-                    float waga = 0; // w tonach
+                    waga = 0; // w tonach
 
-                    int[] ilosci = new int[8];
+                  
                     for (int j = 0; j < ilosci.Length; j++)
                     {
                         Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
