@@ -106,7 +106,7 @@ if (typeOfUser == "admin")
     {
         case 1:
             {
-                
+
             }
             break;
         case 2:
@@ -117,7 +117,7 @@ if (typeOfUser == "admin")
 
                 int[,] statek = new int[4, 13];
 
-                var lines = File.ReadAllLines("statek"+wyborStatku+".txt"); // przepisuje plik tekstowy do tabelki
+                var lines = File.ReadAllLines("statek" + wyborStatku + ".txt"); // przepisuje plik tekstowy do tabelki
                 for (int x = 0; x < 4; x++)
                 {
                     Console.WriteLine(lines[x]);
@@ -127,7 +127,7 @@ if (typeOfUser == "admin")
                     foreach (var word in words)
                     {
                         System.Console.WriteLine($"<{word}>");
-                        statek[x,indeks] = int.Parse(word);
+                        statek[x, indeks] = int.Parse(word);
                         indeks++;
                     }
                 };
@@ -149,50 +149,50 @@ if (typeOfUser == "admin")
                 int[] ilosci = new int[8];
                 if (typKontenera == 60)
                 {
-                        for (int j=0; j < 8; j++)
-                        {
-                            B:
-                            Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
-                            ilosci[j] = Int32.Parse(Console.ReadLine());
-                        if (ilosci[j]==0)
+                    for (int j = 0; j < 8; j++)
+                    {
+                    B:
+                        Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
+                        ilosci[j] = Int32.Parse(Console.ReadLine());
+                        if (ilosci[j] == 0)
                         {
                             goto S;
                         }
-                            waga += ilosci[j] * wagi[j];
-                            if (400 < (statek[2, 5]+ statek[3, 5]+ ilosci[j]))
-                            {
-                                Console.WriteLine("Za duża ilość kontenerów");
+                        waga += ilosci[j] * wagi[j];
+                        if (400 < (statek[2, 5] + statek[3, 5] + ilosci[j]))
+                        {
+                            Console.WriteLine("Za duża ilość kontenerów");
                             ilosci[j] = 0;
                             goto B;
-                            }
-                            if (waga + statek[2, 3] + statek[3, 3] > 1000)
-                            {
-                                Console.WriteLine("Zbyt duża waga");
+                        }
+                        if (waga + statek[2, 3] + statek[3, 3] > 1000)
+                        {
+                            Console.WriteLine("Zbyt duża waga");
                             waga = 0;
                             goto B;
-                            }
-                            while (ilosci[j]!=0)
+                        }
+                        while (ilosci[j] != 0)
+                        {
+
+                            if ((statek[2, j + 4] + 1) < 200)
                             {
-
-                                if ((statek[2, j + 5] + 1) < 200)
-                                {
-                                    statek[2, j + 5] = statek[2, j + 5] + 1;
-                                    ilosci[j] = ilosci[j] - 1;
-                                }
-
-                                if ((statek[3, j + 5] + 1) < 200 && ilosci[j]>0)
-                                {
-                                    statek[3, j + 5] = statek[3, j + 5] + 1;
-                                    ilosci[j] = ilosci[j] - 1;
-                                }
-                                
-
+                                statek[2, j + 4] = statek[2, j + 4] + 1;
+                                ilosci[j] = ilosci[j] - 1;
                             }
-                        S:
-                        waga = 0;  
+
+                            if ((statek[3, j + 4] + 1) < 200 && ilosci[j] > 0)
+                            {
+                                statek[3, j + 4] = statek[3, j + 4] + 1;
+                                ilosci[j] = ilosci[j] - 1;
+                            }
+
+
+                        }
+                    S:
+                        waga = 0;
 
                     }
-                   
+
 
 
                 }
@@ -224,15 +224,15 @@ if (typeOfUser == "admin")
                         while (ilosci[j] != 0)
                         {
 
-                            if ((statek[0, j + 5] + 1) < 100)
+                            if ((statek[0, j + 4] + 1) < 100)
                             {
-                                statek[0, j + 5] = statek[0, j + 5] + 1;
+                                statek[0, j + 4] = statek[0, j + 4] + 1;
                                 ilosci[j] = ilosci[j] - 1;
                             }
 
-                            if ((statek[1, j + 5] + 1) < 100 && ilosci[j] > 0)
+                            if ((statek[1, j + 4] + 1) < 100 && ilosci[j] > 0)
                             {
-                                statek[1, j + 5] = statek[1, j + 5] + 1;
+                                statek[1, j + 4] = statek[1, j + 4] + 1;
                                 ilosci[j] = ilosci[j] - 1;
                             }
 
@@ -243,10 +243,35 @@ if (typeOfUser == "admin")
 
                     }
                 }
-                Console.WriteLine(statek[0, 5]);
-                Console.WriteLine(statek[1, 5]);
-                Console.WriteLine(statek[0, 12]);
-                Console.WriteLine(statek[1, 12]);
+
+                string[,] bufor = new string[4, 13];
+                for (int k = 0; k < 4; k++)
+                {
+                    for (int l = 0; l < 12; l++)
+                    {
+                        bufor[k, l] = statek[k, l].ToString();
+                    }
+
+                }
+                Console.WriteLine(bufor[0, 12]);
+
+                using (var sw = new StreamWriter("statek" + wyborStatku + ".txt"))
+                {
+                    for (int k = 0; k < 4; k++)
+                    {
+                        for (int l = 0; l < 12; l++)
+                        {
+                            sw.Write(bufor[k, l] + " ");
+                        }
+                        sw.Write("\n");
+                    }
+
+                    sw.Flush();
+                    sw.Close();
+                }
+            
+   
+
 
                     /*
                     string[] linie = new string[iloscStref];
@@ -279,7 +304,7 @@ if (typeOfUser == "admin")
                         linie[i] = strefa;
                     }
 
-                    File.WriteAllLines("statek" + wyborStatku + ".txt", linie); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
+                    File.WriteAllLines("statek" + wyborStatku + ".txt", linie); // Tworzy nowy plik tekstowy dla kazdego statku 
 
                     /*
                     int rodzaj = 0;
