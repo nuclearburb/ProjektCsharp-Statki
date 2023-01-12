@@ -209,13 +209,13 @@ if (typeOfUser == "admin")
                             goto S;
                         }
                         waga += ilosci[j] * wagi[j];
-                        if (400 < (statek[2, 5] + statek[3, 5] + ilosci[j]))
+                        if (200 < (statek[0, 5] + statek[1, 5] + ilosci[j]))
                         {
                             Console.WriteLine("Za duża ilość kontenerów");
                             ilosci[j] = 0;
                             goto B;
                         }
-                        if (waga + statek[2, 3] + statek[3, 3] > 1000)
+                        if (waga + statek[0, 3] + statek[1, 3] > 600)
                         {
                             Console.WriteLine("Zbyt duża waga");
                             waga = 0;
@@ -224,15 +224,15 @@ if (typeOfUser == "admin")
                         while (ilosci[j] != 0)
                         {
 
-                            if ((statek[2, j + 5] + 1) < 200)
+                            if ((statek[0, j + 5] + 1) < 100)
                             {
-                                statek[2, j + 5] = statek[2, j + 5] + 1;
+                                statek[0, j + 5] = statek[0, j + 5] + 1;
                                 ilosci[j] = ilosci[j] - 1;
                             }
 
-                            if ((statek[3, j + 5] + 1) < 200 && ilosci[j] > 0)
+                            if ((statek[1, j + 5] + 1) < 100 && ilosci[j] > 0)
                             {
-                                statek[3, j + 5] = statek[3, j + 5] + 1;
+                                statek[1, j + 5] = statek[1, j + 5] + 1;
                                 ilosci[j] = ilosci[j] - 1;
                             }
 
@@ -243,6 +243,10 @@ if (typeOfUser == "admin")
 
                     }
                 }
+                Console.WriteLine(statek[0, 5]);
+                Console.WriteLine(statek[1, 5]);
+                Console.WriteLine(statek[0, 12]);
+                Console.WriteLine(statek[1, 12]);
 
                     /*
                     string[] linie = new string[iloscStref];
