@@ -359,8 +359,61 @@ if (typeOfUser == "admin")
 
 else
 {
-    Console.WriteLine("Witaj uzytkowiku");
-    wybor = Int32.Parse(Console.ReadLine());
+    Console.Clear();
+    P:
+    Console.WriteLine("-------------Witaj uzytkowiku-------------");
+    Console.WriteLine("Wpisz 1 aby Dodanie zlecenia");
+    Console.WriteLine("Wpisz 2 aby Sprawdzić status zamówienia");
+    Console.WriteLine("Wpisz 3 aby się wylogować");
+    int user_menu= Int32.Parse(Console.ReadLine());
+
+    switch (user_menu)
+    {
+        case 1: //Możliwość dodania zlecenia przez użytkownika
+            {
+
+                int zlecenie_nr = 1;
+                for (int i = 0;true; i++)
+                {
+                    if (File.Exists("Zlecenie_" + login + zlecenie_nr + ".txt"))
+                    {
+                        zlecenie_nr += 1;
+                    }
+                    else break;
+                }
+                
+                
+                int[] u_ilosci = new int[8]{ 0, 0, 0, 0, 0, 0,0,0 };
+                StreamWriter su = new StreamWriter("Zlecenie_"+login+zlecenie_nr+".txt");
+                su.WriteLine("---"+login+"---");
+                for (int i = 0; i < 8; i++) 
+                    { 
+                    Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[i]}: ");
+                    u_ilosci[i] = Int32.Parse(Console.ReadLine());
+                    su.Write(nazwy[i]+": ");
+                    su.WriteLine(u_ilosci[i]);
+                    }
+                su.Close();
+                StreamReader sr = File.OpenText("Zlecenie_" + login + zlecenie_nr + ".txt");
+                string s = "";
+                Console.Clear();
+                Console.WriteLine("Twoje zlecenie");
+                while ((s=sr.ReadLine())!=null) { Console.WriteLine(s); }
+                Console.WriteLine("Naciśnij 1 aby wrócić: ");
+                int user_p = int.Parse(Console.ReadLine());
+                if (user_p == 1) { goto P;}
+                su.Close();
+                Console.ReadKey();
+    
+                break;
+            }
+        case 2: { break; }
+        case 3: { break; }
+    }
+
+
+
+   // wybor = Int32.Parse(Console.ReadLine());
 
 
 
