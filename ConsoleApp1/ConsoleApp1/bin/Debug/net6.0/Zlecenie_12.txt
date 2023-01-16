@@ -1,9 +1,0 @@
----1---
-Elektronika: 1
-Zabawki: 1
-Jedzenie: 1
-Plastiki: 1
-Chemia: 1
-AGD: 1
-Pojazdy: 1
-Ubrania: 1
