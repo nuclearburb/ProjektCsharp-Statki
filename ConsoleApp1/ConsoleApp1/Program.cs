@@ -49,7 +49,7 @@ string[] lokalizacje = new string[6]
 };
 
 start:
-typeOfUser = "user";
+typeOfUser = "";
 login = "";
 haslo = "";
 
@@ -88,6 +88,10 @@ else if (wybor == 2)
 {
     Console.Write("Wpisz login: ");
     login = Console.ReadLine();
+    if (login == "user")
+    {
+        typeOfUser = "user";
+    }
     if (login == "admin")
     {
         typeOfUser = "admin";
@@ -140,7 +144,7 @@ panelAdmina:
                     "Ubrania"
                 };
 
-                string[] dirs = Directory.GetFiles(".", "statek*");
+                string[] dirs = Directory.GetFiles(".", "statek*"); //przeszukiwanie folderu 
                 Console.WriteLine("Statki: ", dirs.Length);
                 foreach (string dir in dirs)
                 {
@@ -405,7 +409,7 @@ panelAdmina:
                             Console.WriteLine(statek[2, j+3]);
                             Console.WriteLine(statek[2, j+4]);
                             Console.WriteLine(statek[2, j + 5]);
-                            if (0 > (statek[2, j+4] + statek[3, j+4] - ilosci[j]))
+                            if (0 > (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
@@ -476,7 +480,7 @@ panelAdmina:
                                 goto S;
                             }
                             waga += ilosci[j] * wagi[j];
-                            if (0 < (statek[0, 5] + statek[1, 5] - ilosci[j]))
+                            if (0 > (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
@@ -525,7 +529,7 @@ panelAdmina:
                     } // usuwanie 40tek
                 } //usuwanie do poprawy
 
-                koniec:
+                koniec: //wpisywanie do pliku
 
                     string[,] bufor = new string[4, 13];
                     for (int k = 0; k < 4; k++)
@@ -593,7 +597,7 @@ panelAdmina:
     goto panelAdmina;
 }
 
-else
+else if (typeOfUser == "user")
 {
     Console.WriteLine("Witaj uzytkowniku");
 K:
@@ -616,4 +620,11 @@ K:
         Console.WriteLine();
         goto K;
     }
-};
+}
+
+else
+{
+    Console.WriteLine("Zle wprowadzona liczba");
+    Console.WriteLine();
+    goto start;
+}
