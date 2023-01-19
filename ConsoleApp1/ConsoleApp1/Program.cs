@@ -168,7 +168,7 @@ panelAdmina:
                 Console.Write("Podaj numer statku: ");
                 int wyborStatku = int.Parse(Console.ReadLine()); // 1 lub 2
 
-                int[,] statek = new int[4, 13];
+                float[,] statek = new float[4, 13];
 
                 var lines = File.ReadAllLines("statek" + wyborStatku + ".txt"); // przepisuje plik tekstowy do tabelki
                 for (int x = 0; x < 4; x++)
@@ -231,12 +231,14 @@ panelAdmina:
                                 {
                                     statek[2, j + 4] = statek[2, j + 4] + 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[2, 3] = statek[2, 3] + wagi[j];
                                 }
 
                                 if ((statek[3, j + 4] + 1) < 200 && ilosci[j] > 0)
                                 {
                                     statek[3, j + 4] = statek[3, j + 4] + 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[3, 3] = statek[3, 3] + wagi[j];
                                 }
                             }
                         S:
@@ -339,14 +341,17 @@ panelAdmina:
                                 {
                                     statek[2, j + 4] = statek[2, j + 4] + 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[2, 3] = statek[2, 3] + wagi[j];  
                                 }
 
                                 if ((statek[3, j + 4] + 1) < 200 && ilosci[j] > 0)
                                 {
                                     statek[3, j + 4] = statek[3, j + 4] + 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[3, 3] = statek[3, 3] + wagi[j];
                                 }
                             }
+                            statek[3, j + 4] = statek[3, j + 4] + 1;
                         S:
                             waga = 0;
 
@@ -522,8 +527,14 @@ K:
         Console.WriteLine(lokalizacje[miasto]);
         goto K;
     }
-    else
+    else if (wybor == 2)
     {
         goto start;
+    }
+    else
+    {
+        Console.WriteLine("Zle wprowadzona liczba");
+        Console.WriteLine();
+        goto K;
     }
 };
