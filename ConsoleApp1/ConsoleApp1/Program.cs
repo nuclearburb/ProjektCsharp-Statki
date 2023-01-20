@@ -650,8 +650,9 @@ K:
                 Console.WriteLine("------------Dodawanie zlecenia------------");
                 //------------------------------Wpisanie wartości zlecenia
                 int co = 1;
-                while ((co > 0) && (co < 9))
+                while (true)
                 {
+                m:
                     Console.WriteLine("Wybierz 1 jeśli chcesz dodać elektronike");
                     Console.WriteLine("Wybierz 2 jeśli chcesz dodać Jedzenie");
                     Console.WriteLine("Wybierz 3 jeśli chcesz dodać Plastik");
@@ -660,11 +661,13 @@ K:
                     Console.WriteLine("Wybierz 6 jeśli chcesz dodać Pojazdy");
                     Console.WriteLine("Wybierz 7 jeśli chcesz dodać Ubrania");
                     Console.WriteLine("Jeśli chcesz wyjsc wciśnij 8");
+
                     co = int.Parse(Console.ReadLine());
                     if (co == 8)
                     {
-                        goto H;
+                        break;
                     }
+                    if ((co < 1) || (co >= 8)) { Console.Clear; Console.WriteLine("Zła liczba"); goto m; }
                     else
                     {
                         Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[co]}: ");
@@ -673,7 +676,7 @@ K:
                         su.WriteLine(u_ilosci[co]);
                     }
                 }
-            H:
+            
                 su.Close();
                 //Otworzenie pliku i wypisanie go w konsoli
                 StreamReader sr = File.OpenText(zlecenie_nr + "_" + "Zlecenie.txt");
