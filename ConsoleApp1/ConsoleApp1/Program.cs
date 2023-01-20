@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json;
@@ -48,7 +49,7 @@ string[] lokalizacje = new string[6]
 };
 
 start:
-typeOfUser = "user";
+typeOfUser = "";
 login = "";
 haslo = "";
 
@@ -87,6 +88,10 @@ else if (wybor == 2)
 {
     Console.Write("Wpisz login: ");
     login = Console.ReadLine();
+    if (login == "user")
+    {
+        typeOfUser = "user";
+    }
     if (login == "admin")
     {
         typeOfUser = "admin";
@@ -116,6 +121,7 @@ panelAdmina:
     Console.WriteLine("2. Zarzadzanie statkiem");
     Console.WriteLine("3. Zmiana danych uzytkownika");
     Console.WriteLine("4. Wyloguj");
+    Console.WriteLine("5. Pokaz zlecenia");
 
     wybor = Int32.Parse(Console.ReadLine());
 
@@ -128,7 +134,7 @@ panelAdmina:
                     "Typ Strefy",
                     "Waga Max",
                     "Ilosc Max",
-                    "Waga",
+                    "Waga   ",
                     "Elektronika",
                     "Zabawki",
                     "Jedzenie",
@@ -138,6 +144,17 @@ panelAdmina:
                     "Pojazdy",
                     "Ubrania"
                 };
+
+                string[] dirs = Directory.GetFiles(".", "statek*"); //przeszukiwanie folderu 
+                Console.WriteLine("Statki: ", dirs.Length);
+                foreach (string dir in dirs)
+                {
+                    string str = dir;
+                    str = dir.Remove(dir.Length - 4, 4);
+                    str = str.Remove(0, 2);
+                    Console.WriteLine(str);
+                }
+
                 Console.Write("Podaj numer statku: ");
                 int wyborStatku = Int32.Parse(Console.ReadLine()); // 1 lub 2
 
@@ -145,7 +162,7 @@ panelAdmina:
 
                 var lines = File.ReadAllLines("statek" + wyborStatku + ".txt"); // przepisuje plik tekstowy do tabelki
                 Console.WriteLine("Statek nr: " + wyborStatku);
-                Console.WriteLine("|Typ Strefy|Waga Max|Ilosc Max|Waga|Elektronika|Zabawki|Jedzenie|Plastiki|Chemia|AGD|Pojazdy|Ubrania|");
+                Console.WriteLine("|Typ Strefy|Waga Max|Ilosc Max|Waga   |Elektronika|Zabawki|Jedzenie|Plastiki|Chemia|AGD|Pojazdy|Ubrania|");
 
                 for (int x = 0; x < 4; x++)
                 {
@@ -168,7 +185,7 @@ panelAdmina:
                 Console.Write("Podaj numer statku: ");
                 int wyborStatku = int.Parse(Console.ReadLine()); // 1 lub 2
 
-                int[,] statek = new int[4, 13];
+                float[,] statek = new float[4, 13];
 
                 var lines = File.ReadAllLines("statek" + wyborStatku + ".txt"); // przepisuje plik tekstowy do tabelki
                 for (int x = 0; x < 4; x++)
@@ -178,7 +195,7 @@ panelAdmina:
                     int indeks = 0;
                     foreach (var word in words)
                     {
-                        statek[x, indeks] = int.Parse(word);
+                        statek[x, indeks] = float.Parse(word);
                         indeks++;
                     }
                 };
@@ -186,7 +203,7 @@ panelAdmina:
                 Console.WriteLine("Wpisz 1 jesli chcesz dodac kontener" + "\n" + "Wpisz 2 jesli chcesz usunac kontener");
                 int wybor_zarzadzania = int.Parse(Console.ReadLine());
 
-                if (wybor_zarzadzania == 1)
+                if (wybor_zarzadzania == 1) //dodawanie
                 {
                     int typKontenera = 0;
                     while (typKontenera != 40 && typKontenera != 60)
@@ -200,9 +217,20 @@ panelAdmina:
                     int iloscStref = 5;
                     float waga = 0;
                     int[] ilosci = new int[8];
-                    if (typKontenera == 60)
+                    if (typKontenera == 60) // dodawanie dla 60tek
                     {
-                        for (int j = 0; j < 8; j++)
+                        int n = 0;
+                        for (int m = 1; m < 9; m++)
+                        {
+                            Console.WriteLine($"{m} " + $"{nazwy[n]}");
+                            n++;
+                        }
+
+                    wybortypu:
+                        int wybor_typu = 0;
+                        Console.Write("Podaj jaki chcesz dodac kontener: ");
+                        wybor_typu = int.Parse(Console.ReadLine());
+                        for (int j = wybor_typu - 1; j < 8; j++)
                         {
                         B:
                             Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
@@ -231,23 +259,54 @@ panelAdmina:
                                 {
                                     statek[2, j + 4] = statek[2, j + 4] + 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[2, 3] = statek[2, 3] + wagi[j];
                                 }
 
                                 if ((statek[3, j + 4] + 1) < 200 && ilosci[j] > 0)
                                 {
                                     statek[3, j + 4] = statek[3, j + 4] + 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[3, 3] = statek[3, 3] + wagi[j];
                                 }
                             }
                         S:
                             waga = 0;
-
+                            break;
                         }
-                    }
+                    M:
+                        Console.WriteLine("Wpisz 1 jesli chcesz dodac kolejne kontenery" + "\n" + "Wpisz 2 jesli chcesz wyjsc z zarzadzania");
+                        int wybor_wyjscia = int.Parse(Console.ReadLine());
+                        if (wybor_wyjscia == 1)
+                        {
+                            goto wybortypu;
+                        }
+                        else if (wybor_wyjscia == 2)
+                        {
+                            goto koniec;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Zle wprowadzona liczba");
+                            Console.WriteLine();
+                            goto M;
+                        }
+                        goto wybortypu;
+                    } // dodawanie dla 60tek
 
-                    if (typKontenera == 40)
+                    if (typKontenera == 40) // dodawanie dla 40tek
                     {
-                        for (int j = 0; j < 8; j++)
+                        int n = 0;
+                        for (int m = 1; m < 9; m++)
+                        {
+                            Console.WriteLine($"{m} " + $"{nazwy[n]}");
+                            n++;
+                        }
+
+                    wybortypu:
+                        int wybor_typu = 0;
+                        Console.Write("Podaj jaki chcesz dodac kontener: ");
+                        wybor_typu = int.Parse(Console.ReadLine());
+                        for (int j = wybor_typu - 1; j < 8; j++)
                         {
                         B:
                             Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
@@ -276,29 +335,47 @@ panelAdmina:
                                 {
                                     statek[0, j + 4] = statek[0, j + 4] + 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[0, 3] = statek[0, 3] + (wagi[j] * 0.75f);
                                 }
 
                                 if ((statek[1, j + 4] + 1) < 100 && ilosci[j] > 0)
                                 {
                                     statek[1, j + 4] = statek[1, j + 4] + 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[1, 3] = statek[1, 3] + (wagi[j] * 0.75f);
                                 }
-
-
                             }
                         S:
                             waga = 0;
-
+                            break;
                         }
+                    M:
+                        Console.WriteLine("Wpisz 1 jesli chcesz dodac kolejne kontenery" + "\n" + "Wpisz 2 jesli chcesz wyjsc z zarzadzania");
+                        int wybor_wyjscia = int.Parse(Console.ReadLine());
+                        if (wybor_wyjscia == 1)
+                        {
+                            goto wybortypu;
+                        }
+                        else if (wybor_wyjscia == 2)
+                        {
+                            goto koniec;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Zle wprowadzona liczba");
+                            Console.WriteLine();
+                            goto M;
+                        }
+                        goto wybortypu;
                     }
-                }
-
-                else
+                    //dodawanie dla 40tek
+                } //dodawanie
+                else if (wybor_zarzadzania == 2) //usuwanie
                 {
                     int typKontenera = 0;
                     while (typKontenera != 40 && typKontenera != 60)
                     {
-                        Console.Write("Podaj typ kontenera ktory chcesz usunac (40 albo 60): ");
+                        Console.Write("Podaj typ kontenera (40 albo 60): ");
                         typKontenera = Int32.Parse(Console.ReadLine()); // 40 lub 60;
                     }
 
@@ -307,99 +384,153 @@ panelAdmina:
                     int iloscStref = 5;
                     float waga = 0;
                     int[] ilosci = new int[8];
-
-                    if (typKontenera == 60)
+                    if (typKontenera == 60) // usuwanie dla 60tek
                     {
-                        for (int j = 0; j < 8; j++)
+                        int n = 0;
+                        for (int m = 1; m < 9; m++)
+                        {
+                            Console.WriteLine($"{m} " + $"{nazwy[n]}");
+                            n++;
+                        }
+
+                    wybortypu:
+                        int wybor_typu = 0;
+                        Console.Write("Podaj jaki chcesz usunac kontener: ");
+                        wybor_typu = int.Parse(Console.ReadLine());
+                        for (int j = wybor_typu - 1; j < 8; j++)
                         {
                         B:
-                            Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
+                            Console.Write($"Podaj ilosc kontenerów do usunieca z zawartością {nazwy[j]}: ");
                             ilosci[j] = Int32.Parse(Console.ReadLine());
                             if (ilosci[j] == 0)
                             {
                                 goto S;
                             }
                             waga += ilosci[j] * wagi[j];
-                            if (400 < (statek[2, 5] + statek[3, 5] + ilosci[j]))
+                            Console.WriteLine(statek[2, j + 3]);
+                            Console.WriteLine(statek[2, j + 4]);
+                            Console.WriteLine(statek[2, j + 5]);
+                            if (0 > (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
                             {
-                                Console.WriteLine("Za duża ilość kontenerów");
+                                Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
                                 goto B;
                             }
-                            if (waga + statek[2, 3] + statek[3, 3] > 1000)
-                            {
-                                Console.WriteLine("Zbyt duża waga");
-                                waga = 0;
-                                goto B;
-                            }
+
                             while (ilosci[j] != 0)
                             {
 
-                                if ((statek[2, j + 4] + 1) < 200)
+                                if ((statek[2, j + 4] - 1) > 0)
                                 {
-                                    statek[2, j + 4] = statek[2, j + 4] + 1;
+                                    statek[2, j + 4] = statek[2, j + 4] - 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[2, 3] = statek[2, 3] - wagi[j];
                                 }
 
-                                if ((statek[3, j + 4] + 1) < 200 && ilosci[j] > 0)
+                                if ((statek[3, j + 4] + 1) > 0 && ilosci[j] > 0)
                                 {
-                                    statek[3, j + 4] = statek[3, j + 4] + 1;
+                                    statek[3, j + 4] = statek[3, j + 4] - 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[3, 3] = statek[3, 3] - wagi[j];
                                 }
                             }
                         S:
                             waga = 0;
-
+                            break;
                         }
-                    }
+                    M:
+                        Console.WriteLine("Wpisz 1 jesli chcesz dodac usunac kontenery" + "\n" + "Wpisz 2 jesli chcesz wyjsc z zarzadzania");
+                        int wybor_wyjscia = int.Parse(Console.ReadLine());
+                        if (wybor_wyjscia == 1)
+                        {
+                            goto wybortypu;
+                        }
+                        else if (wybor_wyjscia == 2)
+                        {
+                            goto koniec;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Zle wprowadzona liczba");
+                            Console.WriteLine();
+                            goto M;
+                        }
+                        goto wybortypu;
+                    } // usuwanie 60tek
 
-                    if (typKontenera == 40)
+                    else if (typKontenera == 40) // usuwanie 40tek
                     {
-                        for (int j = 0; j < 8; j++)
+                        int n = 0;
+                        for (int m = 1; m < 9; m++)
+                        {
+                            Console.WriteLine($"{m} " + $"{nazwy[n]}");
+                            n++;
+                        }
+
+                    wybortypu:
+                        int wybor_typu = 0;
+                        Console.Write("Podaj jaki chcesz usunac kontener: ");
+                        wybor_typu = int.Parse(Console.ReadLine());
+                        for (int j = wybor_typu - 1; j < 8; j++)
                         {
                         B:
-                            Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
+                            Console.Write($"Podaj ilosc kontenerów do usunieca z zawartością {nazwy[j]}: ");
                             ilosci[j] = Int32.Parse(Console.ReadLine());
                             if (ilosci[j] == 0)
                             {
                                 goto S;
                             }
                             waga += ilosci[j] * wagi[j];
-                            if (200 < (statek[0, 5] + statek[1, 5] + ilosci[j]))
+                            if (0 > (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
                             {
-                                Console.WriteLine("Za duża ilość kontenerów");
+                                Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
                                 goto B;
                             }
-                            if (waga + statek[0, 3] + statek[1, 3] > 600)
-                            {
-                                Console.WriteLine("Zbyt duża waga");
-                                waga = 0;
-                                goto B;
-                            }
+
                             while (ilosci[j] != 0)
                             {
 
-                                if ((statek[0, j + 4] + 1) < 100)
+                                if ((statek[0, j + 4] - 1) > 0)
                                 {
-                                    statek[0, j + 4] = statek[0, j + 4] + 1;
+                                    statek[0, j + 4] = statek[0, j + 4] - 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[0, 3] = statek[0, 3] - (wagi[j] * 0.75f);
                                 }
 
-                                if ((statek[1, j + 4] + 1) < 100 && ilosci[j] > 0)
+                                if ((statek[1, j + 4] + 1) > 0 && ilosci[j] > 0)
                                 {
-                                    statek[1, j + 4] = statek[1, j + 4] + 1;
+                                    statek[1, j + 4] = statek[1, j + 4] - 1;
                                     ilosci[j] = ilosci[j] - 1;
+                                    statek[1, 3] = statek[1, 3] - (wagi[j] * 0.75f);
                                 }
                             }
                         S:
                             waga = 0;
+                            break;
                         }
-                    }
-                }
+                    M:
+                        Console.WriteLine("Wpisz 1 jesli chcesz usunac kolejne kontenery" + "\n" + "Wpisz 2 jesli chcesz wyjsc z zarzadzania");
+                        int wybor_wyjscia = int.Parse(Console.ReadLine());
+                        if (wybor_wyjscia == 1)
+                        {
+                            goto wybortypu;
+                        }
+                        else if (wybor_wyjscia == 2)
+                        {
+                            goto koniec;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Zle wprowadzona liczba");
+                            Console.WriteLine();
+                            goto M;
+                        }
+                        goto wybortypu;
+                    } // usuwanie 40tek
+                } //usuwanie do poprawy
 
-                //ZROBIĆ - LICZENIE WAG
-                //I USUWANIE KONTENEROW
+            koniec: //wpisywanie do pliku
 
                 string[,] bufor = new string[4, 13];
                 for (int k = 0; k < 4; k++)
@@ -425,61 +556,19 @@ panelAdmina:
                     sw.Flush();
                     sw.Close();
                 }
-
-
-
-
-                /*
-                string[] linie = new string[iloscStref];
-                for (int i = 0; i < iloscStref; i++)
-                {
-                    waga = 0; // w tonach
-
-
-                    for (int j = 0; j < ilosci.Length; j++)
-                    {
-                        Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[j]}: ");
-                        ilosci[j] = Int32.Parse(Console.ReadLine());
-
-                        if (typKontenera == 40)
-                            waga += ilosci[j] * wagi[j] * 0.75f; // dodaj do wagi całkowitej wage kontenera. małe kontenery są 25% lzejsze
-                        else
-                            waga += ilosci[j] * wagi[j]; // dodaj do wagi całkowitej wage kontenera
-                    }
-
-                    string strefa = $"{maxIloscStrefy} {iloscZaladunku} {waga}";
-
-                    for (int j = 0; j < ilosci.Length; j++)
-                    {
-                        strefa += $" {ilosci[j]}";
-                    }
-
-                    Console.WriteLine("Calkowita waga strefy: " + waga);
-                    Console.WriteLine("Numer strefy "+ i+1);
-
-                    linie[i] = strefa;
-                }
-
-                File.WriteAllLines("statek" + wyborStatku + ".txt", linie); // Tworzy nowy plik tekstowy dla kazdego statku 
-
-                /*
-                int rodzaj = 0;
-                Console.WriteLine("Podaj rodzaj kontenera (40/60)");
-                rodzaj = int.Parse(Console.ReadLine());
-                if (rodzaj == 40)
-                {
-                    Console.WriteLine("cos40");
-                }
-                else if (rodzaj == 60)
-                {
-                    Console.WriteLine("cos60");
-                }
-                Console.ReadKey(true);
-                */
             }
             break;
         case 3:
             {
+                string[] dirs = Directory.GetFiles(".", "user*");
+                Console.WriteLine("Użytkownicy: ", dirs.Length);
+                foreach (string dir in dirs)
+                {
+                    string str = dir;
+                    str = dir.Remove(dir.Length - 4, 4);
+                    str = str.Remove(0, 6);
+                    Console.WriteLine(str);
+                }
                 Console.Write("Podaj uzytkownika: ");
                 login = Console.ReadLine();
 
@@ -505,25 +594,125 @@ panelAdmina:
                 goto start;
             }
             break;
+        case 5:
+            {
+
+                for (int i = 1; true; i++)
+                {
+                    if (File.Exists(i + "_" + "Zlecenie.txt"))
+                    {
+                        Console.WriteLine("Zlecenie:" + i);
+                        StreamReader sr = File.OpenText(i + "_" + "Zlecenie.txt");
+                        string s = "";
+                        while ((s = sr.ReadLine()) != null) { Console.WriteLine(s); }
+                        sr.Close();
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                }
+            }
+            break;
     }
     goto panelAdmina;
 }
 
+else if (typeOfUser == "user")
+{
+K:
+    Console.Clear();
+    Console.WriteLine("-------------Witaj uzytkowiku-------------");
+    Console.WriteLine("Wpisz 1 aby Dodanie zlecenia");
+    Console.WriteLine("Wpisz 2 aby wyświetlić lokalizacje kontenera");
+    Console.WriteLine("Wpisz 3 aby się wylogować");
+    Console.WriteLine("Wpisz 4 aby wyłączyć aplikacje");
+    int user_menu = int.Parse(Console.ReadLine());
+    Console.Clear();
+    switch (user_menu)
+    {
+        //------------------------------Dodanie zlecenia które admin musi wpisać
+        case 1:
+            {
+                int zlecenie_nr = 1;
+                for (int i = 0; true; i++)
+                {
+                    if (File.Exists(zlecenie_nr + "_" + "Zlecenie.txt"))
+                    {
+                        zlecenie_nr += 1;
+                    }
+                    else break;
+                }
+                int[] u_ilosci = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
+                StreamWriter su = new StreamWriter(zlecenie_nr + "_" + "Zlecenie.txt");
+                su.WriteLine("--------" + login + "--------");
+                Console.WriteLine("------------Dodawanie zlecenia------------");
+                //------------------------------Wpisanie wartości zlecenia
+                int co = 1;
+                while ((co > 0) && (co < 9))
+                {
+                    Console.WriteLine("Wybierz 1 jeśli chcesz dodać elektronike");
+                    Console.WriteLine("Wybierz 2 jeśli chcesz dodać Jedzenie");
+                    Console.WriteLine("Wybierz 3 jeśli chcesz dodać Plastik");
+                    Console.WriteLine("Wybierz 4 jeśli chcesz dodać Chemie");
+                    Console.WriteLine("Wybierz 5 jeśli chcesz dodać AGD");
+                    Console.WriteLine("Wybierz 6 jeśli chcesz dodać Pojazdy");
+                    Console.WriteLine("Wybierz 7 jeśli chcesz dodać Ubrania");
+                    Console.WriteLine("Jeśli chcesz wyjsc wciśnij 8");
+                    co = int.Parse(Console.ReadLine());
+                    if (co == 8)
+                    {
+                        goto H;
+                    }
+                    else
+                    {
+                        Console.Write($"Podaj ilosc kontenerów z zawartością {nazwy[co]}: ");
+                        u_ilosci[co] = int.Parse(Console.ReadLine());
+                        su.Write(nazwy[co] + ": ");
+                        su.WriteLine(u_ilosci[co]);
+                    }
+                }
+            H:
+                su.Close();
+                //Otworzenie pliku i wypisanie go w konsoli
+                StreamReader sr = File.OpenText(zlecenie_nr + "_" + "Zlecenie.txt");
+                string s = "";
+                Console.Clear();
+                Console.WriteLine("Twoje zlecenie");
+                while ((s = sr.ReadLine()) != null) { Console.WriteLine(s); }
+                Console.WriteLine("Naciśnij 1 aby wrócić: ");
+                int user_p = int.Parse(Console.ReadLine());
+                if (user_p == 1) { goto K; }
+                su.Close();
+                Console.ReadKey();
+
+                break;
+            }
+        //------------------------------Pokazanie lokalizacji statku
+        case 2:
+            {
+                Console.Clear();
+                Console.WriteLine("-------------Lokalizacja statku-------------");
+                Console.WriteLine("Lokalizacja: " + lokalizacje[miasto]);
+                Console.WriteLine("--------------------------------------------");
+                Console.WriteLine("Wciśnij dowolny przycisk żeby wrócić");
+                Console.ReadKey();
+                goto K;
+            }
+        //------------------------------Wylogowywanie
+        case 3:
+            { goto start; }
+        //------------------------------Wyłączenie programu
+        case 4:
+            { break; }
+
+    };
+}
+
 else
 {
-    Console.WriteLine("Witaj uzytkowniku");
-K:
-    Console.WriteLine("Wpisz 1, jesli sprawdziać lokalizacje kontenera");
-    Console.WriteLine("Wpisz 2, jesli chcesz sie wylogować");
+    Console.WriteLine("Zle wprowadzona liczba");
     Console.WriteLine();
-    wybor = Int32.Parse(Console.ReadLine());
-    if (wybor == 1)
-    {
-        Console.WriteLine(lokalizacje[miasto]);
-        goto K;
-    }
-    else
-    {
-        goto start;
-    }
-};
+    goto start;
+}
