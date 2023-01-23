@@ -53,6 +53,7 @@ typeOfUser = "";
 login = "";
 haslo = "";
 
+Console.Clear();
 Console.WriteLine("Wpisz 1, jesli chcesz stworzyc nowego uzytkownika");
 Console.WriteLine("Wpisz 2, jesli chcesz sie zalogowac");
 int wybor = Int32.Parse(Console.ReadLine());
@@ -105,22 +106,24 @@ else if (wybor == 2)
     }
     else
     {
+        Console.Clear();
         Console.WriteLine("Nieprawidlowe haslo!");
+        Thread.Sleep(2000);
         goto start; // wraca na gore
     };
 }
+Console.Clear();
 
 if (typeOfUser == "admin")
 {
-    Console.WriteLine("Witaj adminie");
-
+    Console.WriteLine("-------------Witaj adminie----------------");
 panelAdmina:
-
     Console.WriteLine("1. Podglad calej floty");
     Console.WriteLine("2. Zarzadzanie statkiem");
     Console.WriteLine("3. Zmiana danych uzytkownika");
     Console.WriteLine("4. Wyloguj");
     Console.WriteLine("5. Pokaz zlecenia");
+    Console.WriteLine();
 
     wybor = Int32.Parse(Console.ReadLine());
 
@@ -153,10 +156,11 @@ panelAdmina:
                     str = str.Remove(0, 2);
                     Console.WriteLine(str);
                 }
-                L:
+            L:
                 Console.Write("Podaj numer statku: ");
                 int wyborStatku = Int32.Parse(Console.ReadLine()); // 1 lub 2
-                if(wyborStatku!=1 && wyborStatku!=2)
+                Console.WriteLine();
+                if (wyborStatku!=1 && wyborStatku!=2)
                 {
                     goto L;
                 }
@@ -219,7 +223,7 @@ panelAdmina:
                         Console.Write("Podaj typ kontenera (40 albo 60): ");
                         typKontenera = Int32.Parse(Console.ReadLine()); // 40 lub 60;
                     }
-
+                    Console.WriteLine();
                     int iloscZaladunku = 300;
                     int maxIloscStrefy = 100;
                     int iloscStref = 5;
@@ -233,6 +237,7 @@ panelAdmina:
                             Console.WriteLine($"{m} " + $"{nazwy[n]}");
                             n++;
                         }
+                        Console.WriteLine();
 
                     wybortypu:
                         int wybor_typu = 0;
@@ -243,6 +248,7 @@ panelAdmina:
                         B:
                             Console.Write($"Podaj ilosc kontenerow z zawartoscia {nazwy[j]}: ");
                             ilosci[j] = Int32.Parse(Console.ReadLine());
+                            Console.WriteLine();
                             if (ilosci[j] == 0)
                             {
                                 goto S;
@@ -262,19 +268,23 @@ panelAdmina:
                             }
                             while (ilosci[j] != 0)
                             {
-
-                                if ((statek[2, j + 4] + 1) < 200)
+                                if (statek[2, j + 4] < statek[3, j + 4])
                                 {
-                                    statek[2, j + 4] = statek[2, j + 4] + 1;
-                                    ilosci[j] = ilosci[j] - 1;
-                                    statek[2, 3] = statek[2, 3] + wagi[j];
+                                    if ((statek[2, j + 4] + 1) < 200)
+                                    {
+                                        statek[2, j + 4] = statek[2, j + 4] + 1;
+                                        ilosci[j] = ilosci[j] - 1;
+                                        statek[2, 3] = statek[2, 3] + wagi[j];
+                                    }
                                 }
-
-                                if ((statek[3, j + 4] + 1) < 200 && ilosci[j] > 0)
+                                else
                                 {
-                                    statek[3, j + 4] = statek[3, j + 4] + 1;
-                                    ilosci[j] = ilosci[j] - 1;
-                                    statek[3, 3] = statek[3, 3] + wagi[j];
+                                    if ((statek[3, j + 4] + 1) < 200 && ilosci[j] > 0)
+                                    {
+                                        statek[3, j + 4] = statek[3, j + 4] + 1;
+                                        ilosci[j] = ilosci[j] - 1;
+                                        statek[3, 3] = statek[3, 3] + wagi[j];
+                                    }
                                 }
                             }
                         S:
@@ -309,6 +319,7 @@ panelAdmina:
                             Console.WriteLine($"{m} " + $"{nazwy[n]}");
                             n++;
                         }
+                        Console.WriteLine();
 
                     wybortypu:
                         int wybor_typu = 0;
@@ -319,6 +330,7 @@ panelAdmina:
                         B:
                             Console.Write($"Podaj ilosc kontenerow z zawartoscia {nazwy[j]}: ");
                             ilosci[j] = Int32.Parse(Console.ReadLine());
+                            Console.WriteLine();
                             if (ilosci[j] == 0)
                             {
                                 goto S;
@@ -336,16 +348,19 @@ panelAdmina:
                                 waga = 0;
                                 goto B;
                             }
-                                while (ilosci[j] != 0)
+                            while (ilosci[j] != 0)
+                            {
+                                if (statek[0, j + 4] < statek[1, j + 4])
                                 {
-
                                     if ((statek[0, j + 4] + 1) < 100)
                                     {
                                         statek[0, j + 4] = statek[0, j + 4] + 1;
                                         ilosci[j] = ilosci[j] - 1;
                                         statek[0, 3] = statek[0, 3] + (wagi[j] * 0.75f);
                                     }
-
+                                }
+                                else
+                                {
                                     if ((statek[1, j + 4] + 1) < 100 && ilosci[j] > 0)
                                     {
                                         statek[1, j + 4] = statek[1, j + 4] + 1;
@@ -353,8 +368,7 @@ panelAdmina:
                                         statek[1, 3] = statek[1, 3] + (wagi[j] * 0.75f);
                                     }
                                 }
-                            
-
+                            }
                         S:
                             waga = 0;
                             break;
@@ -388,7 +402,7 @@ panelAdmina:
                         Console.Write("Podaj typ kontenera (40 albo 60): ");
                         typKontenera = Int32.Parse(Console.ReadLine()); // 40 lub 60;
                     }
-
+                    Console.WriteLine();
                     int iloscZaladunku = 300;
                     int maxIloscStrefy = 100;
                     int iloscStref = 5;
@@ -402,7 +416,7 @@ panelAdmina:
                             Console.WriteLine($"{m} " + $"{nazwy[n]}");
                             n++;
                         }
-
+                        Console.WriteLine();
                     wybortypu:
                         int wybor_typu = 0;
                         Console.Write("Podaj jaki chcesz usunac kontener: ");
@@ -412,6 +426,7 @@ panelAdmina:
                         B:
                             Console.Write($"Podaj ilosc kontenerow do usunieca z zawartoscia {nazwy[j]}: ");
                             ilosci[j] = Int32.Parse(Console.ReadLine());
+                            Console.WriteLine();
                             if (ilosci[j] == 0)
                             {
                                 goto S;
@@ -423,43 +438,43 @@ panelAdmina:
                                 ilosci[j] = 0;
                                 goto B;
                             }
-                            if (statek[2, j + 4] > 1)
-                            {
+                            if (ilosci[j] != 1)
+                            { 
                                 while (ilosci[j] != 0)
                                 {
-
-                                    if ((statek[2, j + 4] - 1) > 0)
+                                    if (statek[2, j + 4] > statek[3, j + 4])
                                     {
-                                        statek[2, j + 4] = statek[2, j + 4] - 1;
-                                        ilosci[j] = ilosci[j] - 1;
-                                        statek[2, 3] = statek[2, 3] - wagi[j];
+                                        if ((statek[2, j + 4] - 1) > 0)
+                                        {
+                                            statek[2, j + 4] = statek[2, j + 4] - 1;
+                                            ilosci[j] = ilosci[j] - 1;
+                                            statek[2, 3] = statek[2, 3] - wagi[j];
+                                        }
                                     }
-
-                                    if ((statek[3, j + 4] + 1) > 0 && ilosci[j] > 0)
+                                    else
                                     {
-                                        statek[3, j + 4] = statek[3, j + 4] - 1;
-                                        ilosci[j] = ilosci[j] - 1;
-                                        statek[3, 3] = statek[3, 3] - wagi[j];
+                                        if ((statek[3, j + 4] + 1) > 0 && ilosci[j] > 0)
+                                        {
+                                            statek[3, j + 4] = statek[3, j + 4] - 1;
+                                            ilosci[j] = ilosci[j] - 1;
+                                            statek[3, 3] = statek[3, 3] - wagi[j];
+                                        }
                                     }
                                 }
                             }
-                            else if (statek[2, j + 4] == 1)
+                            else
                             {
-                                if ((statek[2, j + 4] + 1) < 100)
-                                {
-                                    statek[2, j + 4] = statek[2, j + 4] - 1;
-                                    ilosci[j] = ilosci[j] - 1;
-                                    statek[2, 3] = statek[2, 3] - (wagi[j]);
-                                }
-                                goto S;
-
-                            };
+                                statek[2, j + 4] = statek[2, j + 4] - 1;
+                                ilosci[j] = ilosci[j] - 1;
+                                statek[2, 3] = statek[2, 3] - wagi[j];
+                            }
+                            goto S;
                         S:
                             waga = 0;
                             break;
                         }
                     M:
-                        Console.WriteLine("Wpisz 1 jesli chcesz dodac usunac kontenery" + "\n" + "Wpisz 2 jesli chcesz wyjsc z zarzadzania");
+                        Console.WriteLine("Wpisz 1 jesli chcesz usunac kolejne kontenery" + "\n" + "Wpisz 2 jesli chcesz wyjsc z zarzadzania");
                         int wybor_wyjscia = int.Parse(Console.ReadLine());
                         if (wybor_wyjscia == 1)
                         {
@@ -486,7 +501,7 @@ panelAdmina:
                             Console.WriteLine($"{m} " + $"{nazwy[n]}");
                             n++;
                         }
-
+                        Console.WriteLine();
                     wybortypu:
                         int wybor_typu = 0;
                         Console.Write("Podaj jaki chcesz usunac kontener: ");
@@ -496,6 +511,7 @@ panelAdmina:
                         B:
                             Console.Write($"Podaj ilosc kontenerow do usunieca z zawartoscia {nazwy[j]}: ");
                             ilosci[j] = Int32.Parse(Console.ReadLine());
+                            Console.WriteLine();
                             if (ilosci[j] == 0)
                             {
                                 goto S;
@@ -562,7 +578,9 @@ panelAdmina:
                         }
                         goto wybortypu;
                     } // usuwanie 40tek
-                } //usuwanie do poprawy
+                }
+
+                // usuwanie maly mankament do poprawy w przyszlosci
 
             koniec: //wpisywanie do pliku
 
@@ -574,7 +592,6 @@ panelAdmina:
                         bufor[k, l] = statek[k, l].ToString();
                     }
                 }
-                Console.WriteLine(bufor[0, 12]);
 
                 using (var sw = new StreamWriter("statek" + wyborStatku + ".txt"))
                 {
@@ -687,21 +704,22 @@ K:
                 while (true)
                 {
                 m:
-                    Console.WriteLine("Wybierz 1 jesli chcesz dodac elektronike");
-                    Console.WriteLine("Wybierz 2 jesli chcesz dodac Jedzenie");
-                    Console.WriteLine("Wybierz 3 jesli chcesz dodac Plastik");
-                    Console.WriteLine("Wybierz 4 jesli chcesz dodac Chemie");
-                    Console.WriteLine("Wybierz 5 jesli chcesz dodac AGD");
-                    Console.WriteLine("Wybierz 6 jesli chcesz dodac Pojazdy");
-                    Console.WriteLine("Wybierz 7 jesli chcesz dodac Ubrania");
-                    Console.WriteLine("Jeśli chcesz wyjsc wcisnij 8");
+                    Console.WriteLine("Wybierz 1 jesli chcesz dodac Elektronike");
+                    Console.WriteLine("Wybierz 2 jesli chcesz dodac Zabawki");
+                    Console.WriteLine("Wybierz 3 jesli chcesz dodac Jedzenie");
+                    Console.WriteLine("Wybierz 4 jesli chcesz dodac Plastik");
+                    Console.WriteLine("Wybierz 5 jesli chcesz dodac Chemie");
+                    Console.WriteLine("Wybierz 6 jesli chcesz dodac AGD");
+                    Console.WriteLine("Wybierz 7 jesli chcesz dodac Pojazdy");
+                    Console.WriteLine("Wybierz 8 jesli chcesz dodac Ubrania");
+                    Console.WriteLine("Jeśli chcesz wyjsc wybierz 0");
 
                     co = int.Parse(Console.ReadLine());
-                    if (co == 8)
+                    if (co == 0)
                     {
                         break;
                     }
-                    if ((co < 1) || (co >= 8)) { 
+                    if ((co < 0) || (co >= 8)) { 
                         Console.WriteLine("Zla liczba");
                         goto m; 
                     }
