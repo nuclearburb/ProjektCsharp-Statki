@@ -502,32 +502,42 @@ panelAdmina:
                             }
 
                             waga += ilosci[j] * wagi[j];
-                            if (0 == (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
+                            if (0 > (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
                                 goto B;
                             }
-                            while (ilosci[j] != 0)
+                            if (ilosci[j] != 1)
                             {
-                                if (statek[0, j + 4] > statek[1, j + 4])
-                                { 
-                                    if ((statek[0, j + 4] - 1) > 0)
-                                    {
-                                        statek[0, j + 4] = statek[0, j + 4] - 1;
-                                        ilosci[j] = ilosci[j] - 1;
-                                        statek[0, 3] = statek[0, 3] - (wagi[j] * 0.75f);
-                                    }
-                                }
-                                else
+                                while (ilosci[j] != 0)
                                 {
-                                    if ((statek[1, j + 4] + 1) > 0 && ilosci[j] > 0)
+                                    if (statek[0, j + 4] > statek[1, j + 4])
                                     {
-                                        statek[1, j + 4] = statek[1, j + 4] - 1;
-                                        ilosci[j] = ilosci[j] - 1;
-                                        statek[1, 3] = statek[1, 3] - (wagi[j] * 0.75f);
+                                        if ((statek[0, j + 4] - 1) > 0)
+                                        {
+                                            statek[0, j + 4] = statek[0, j + 4] - 1;
+                                            ilosci[j] = ilosci[j] - 1;
+                                            statek[0, 3] = statek[0, 3] - (wagi[j] * 0.75f);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if ((statek[1, j + 4] + 1) > 0 && ilosci[j] > 0)
+                                        {
+                                            statek[1, j + 4] = statek[1, j + 4] - 1;
+                                            ilosci[j] = ilosci[j] - 1;
+                                            statek[1, 3] = statek[1, 3] - (wagi[j] * 0.75f);
+                                        }
                                     }
                                 }
+                            }
+                            else
+                            {
+                                statek[0, j + 4] = statek[0, j + 4] - 1;
+                                ilosci[j] = ilosci[j] - 1;
+                                statek[0, 3] = statek[0, 3] - (wagi[j] * 0.75f);
+
                             }
                         S:
                             waga = 0;
