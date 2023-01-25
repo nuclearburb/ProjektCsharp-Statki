@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 
 string typeOfUser;
 string login;
@@ -102,7 +103,9 @@ else if (wybor == 2)
     string[] test = System.IO.File.ReadAllLines(typeOfUser + login + ".txt");  // Uzytkownicy oraz admin znajduja sie jako pliki tekstowe w folderze z programem
     if (test[1] == haslo)
     {
+        Console.Clear();
         Console.WriteLine("Zalogowano");
+        Thread.Sleep(2000);
     }
     else
     {
@@ -300,6 +303,7 @@ panelAdmina:
                         }
                         else if (wybor_wyjscia == 2)
                         {
+                            Console.WriteLine();
                             goto koniec;
                         }
                         else
@@ -382,6 +386,7 @@ panelAdmina:
                         }
                         else if (wybor_wyjscia == 2)
                         {
+                            Console.WriteLine();
                             goto koniec;
                         }
                         else
@@ -432,44 +437,42 @@ panelAdmina:
                                 goto S;
                             }
                             waga += ilosci[j] * wagi[j];
-                            if (0 > (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
+                            if (0 < (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
                                 goto B;
                             }
-                            if (ilosci[j] != 1)
-                            { 
-                                while (ilosci[j] != 0)
+                            if (ilosci[j] == statek[2, j + 4] + statek[3, j + 4])
+                            {
+                                statek[2, j + 4] = 0;
+                                statek[3, j + 4] = 0;
+                                statek[2, 3] -= statek[2, j + 4] * wagi[j];
+                                statek[3, 3] -= statek[3, j + 4] * wagi[j];
+                                goto S;
+                            }
+                            while (ilosci[j] != 0)
+                            {
+                                if (statek[2, j + 4] > statek[3, j + 4])
                                 {
-                                    if (statek[2, j + 4] > statek[3, j + 4])
+                                    if ((statek[2, j + 4] - 1) > 0)
                                     {
-                                        if ((statek[2, j + 4] - 1) > 0)
-                                        {
-                                            statek[2, j + 4] = statek[2, j + 4] - 1;
-                                            ilosci[j] = ilosci[j] - 1;
-                                            statek[2, 3] = statek[2, 3] - wagi[j];
-                                        }
+                                        statek[2, j + 4] = statek[2, j + 4] - 1;
+                                        ilosci[j] = ilosci[j] - 1;
+                                        statek[2, 3] = statek[2, 3] - wagi[j];
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                    if ((statek[3, j + 4] + 1) > 0 && ilosci[j] > 0)
                                     {
-                                        if ((statek[3, j + 4] + 1) > 0 && ilosci[j] > 0)
-                                        {
-                                            statek[3, j + 4] = statek[3, j + 4] - 1;
-                                            ilosci[j] = ilosci[j] - 1;
-                                            statek[3, 3] = statek[3, 3] - wagi[j];
-                                        }
+                                        statek[3, j + 4] = statek[3, j + 4] - 1;
+                                        ilosci[j] = ilosci[j] - 1;
+                                        statek[3, 3] = statek[3, 3] - wagi[j];
                                     }
                                 }
                             }
-                            else
-                            {
-                                statek[2, j + 4] = statek[2, j + 4] - 1;
-                                ilosci[j] = ilosci[j] - 1;
-                                statek[2, 3] = statek[2, 3] - wagi[j];
-                            }
-                            goto S;
-                        S:
+                            S:
                             waga = 0;
                             break;
                         }
@@ -482,6 +485,7 @@ panelAdmina:
                         }
                         else if (wybor_wyjscia == 2)
                         {
+                            Console.WriteLine();
                             goto koniec;
                         }
                         else
@@ -492,6 +496,7 @@ panelAdmina:
                         }
                         goto wybortypu;
                     } // usuwanie 60tek
+
 
                     else if (typKontenera == 40) // usuwanie 40tek
                     {
@@ -518,42 +523,40 @@ panelAdmina:
                             }
 
                             waga += ilosci[j] * wagi[j];
-                            if (0 > (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
+                            if (0 < (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
                                 goto B;
                             }
-                            if (ilosci[j] != 1)
+                            if (ilosci[j] == statek[0, j + 4] + statek[1, j + 4])
                             {
-                                while (ilosci[j] != 0)
+                                statek[0, j + 4] = 0;
+                                statek[1, j + 4] = 0;
+                                statek[0, 3] = statek[0, 3] - (statek[0, j + 4] * wagi[j]);
+                                statek[1, 3] = statek[1, 3] - (statek[1, j + 4] * wagi[j]);
+                                goto S;
+                            }
+                            while (ilosci[j] != 0)
+                            {
+                                if (statek[0, j + 4] > statek[1, j + 4])
                                 {
-                                    if (statek[0, j + 4] > statek[1, j + 4])
+                                    if ((statek[0, j + 4] - 1) > 0)
                                     {
-                                        if ((statek[0, j + 4] - 1) > 0)
-                                        {
-                                            statek[0, j + 4] = statek[0, j + 4] - 1;
-                                            ilosci[j] = ilosci[j] - 1;
-                                            statek[0, 3] = statek[0, 3] - (wagi[j] * 0.75f);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if ((statek[1, j + 4] + 1) > 0 && ilosci[j] > 0)
-                                        {
-                                            statek[1, j + 4] = statek[1, j + 4] - 1;
-                                            ilosci[j] = ilosci[j] - 1;
-                                            statek[1, 3] = statek[1, 3] - (wagi[j] * 0.75f);
-                                        }
+                                        statek[0, j + 4] = statek[0, j + 4] - 1;
+                                        ilosci[j] = ilosci[j] - 1;
+                                        statek[0, 3] = statek[0, 3] - (wagi[j] * 0.75f);
                                     }
                                 }
-                            }
-                            else
-                            {
-                                statek[0, j + 4] = statek[0, j + 4] - 1;
-                                ilosci[j] = ilosci[j] - 1;
-                                statek[0, 3] = statek[0, 3] - (wagi[j] * 0.75f);
-
+                                else
+                                {
+                                    if ((statek[1, j + 4] + 1) > 0 && ilosci[j] > 0)
+                                    {
+                                        statek[1, j + 4] = statek[1, j + 4] - 1;
+                                        ilosci[j] = ilosci[j] - 1;
+                                        statek[1, 3] = statek[1, 3] - (wagi[j] * 0.75f);
+                                    }
+                                }
                             }
                         S:
                             waga = 0;
@@ -572,6 +575,7 @@ panelAdmina:
                         }
                         else
                         {
+                            Console.WriteLine();
                             Console.WriteLine("Zle wprowadzona liczba");
                             Console.WriteLine();
                             goto M;
@@ -579,9 +583,6 @@ panelAdmina:
                         goto wybortypu;
                     } // usuwanie 40tek
                 }
-
-                // usuwanie maly mankament do poprawy w przyszlosci
-
             koniec: //wpisywanie do pliku
 
                 string[,] bufor = new string[4, 13];
