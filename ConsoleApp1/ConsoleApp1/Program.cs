@@ -676,7 +676,7 @@ else if (typeOfUser == "user")
 K:
     Console.Clear();
     Console.WriteLine("-------------Witaj uzytkowiku-------------");
-    Console.WriteLine("Wpisz 1 aby Dodanie zlecenia");
+    Console.WriteLine("Wpisz 1 aby dodac zlecenie");
     Console.WriteLine("Wpisz 2 aby wyswietlic lokalizacje kontenera");
     Console.WriteLine("Wpisz 3 aby sie wylogowac");
     Console.WriteLine("Wpisz 4 aby wylaczyc aplikacje");
