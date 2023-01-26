@@ -254,8 +254,17 @@ panelAdmina:
                     wybortypu:
                         int wybor_typu = 0;
                         Console.Write("Podaj jaki chcesz dodac kontener: ");
-                        wybor_typu = int.Parse(Console.ReadLine());
-                        for (int j = wybor_typu - 1; j < 8; j++)
+                        int temp = 0;
+                        temp = int.Parse(Console.ReadLine());
+                        if ((temp > 0) && (temp <= 8))
+                        {
+                            wybor_typu = temp;
+                        }
+                        else
+                        {
+                            goto wybortypu;
+                        };
+                            for (int j = wybor_typu - 1; j < 8; j++)
                         {
                         B:
                             Console.Write($"Podaj ilosc kontenerow z zawartoscia {nazwy[j]}: ");
@@ -337,7 +346,16 @@ panelAdmina:
                     wybortypu:
                         int wybor_typu = 0;
                         Console.Write("Podaj jaki chcesz dodac kontener: ");
-                        wybor_typu = int.Parse(Console.ReadLine());
+                        int temp = 0;
+                        temp = int.Parse(Console.ReadLine());
+                        if ((temp > 0) && (temp <= 8))
+                        {
+                            wybor_typu = temp;
+                        }
+                        else
+                        {
+                            goto wybortypu;
+                        };
                         for (int j = wybor_typu - 1; j < 8; j++)
                         {
                         B:
@@ -434,7 +452,16 @@ panelAdmina:
                     wybortypu:
                         int wybor_typu = 0;
                         Console.Write("Podaj jaki chcesz usunac kontener: ");
-                        wybor_typu = int.Parse(Console.ReadLine());
+                        int temp = 0;
+                        temp = int.Parse(Console.ReadLine());
+                        if ((temp > 0) && (temp <= 8))
+                        {
+                            wybor_typu = temp;
+                        }
+                        else
+                        {
+                            goto wybortypu;
+                        };
                         for (int j = wybor_typu - 1; j < 8; j++)
                         {
                         B:
@@ -519,21 +546,23 @@ panelAdmina:
                     wybortypu:
                         int wybor_typu = 0;
                         Console.Write("Podaj jaki chcesz usunac kontener: ");
-                        wybor_typu = int.Parse(Console.ReadLine());
+                        int temp = 0;
+                        temp = int.Parse(Console.ReadLine());
+                        if ((temp > 0) && (temp <= 8))
+                        {
+                            wybor_typu = temp;
+                        }
+                        else
+                        {
+                            goto wybortypu;
+                        };
                         for (int j = wybor_typu - 1; j < 8; j++)
                         {
                         B:
                             Console.Write($"Podaj ilosc kontenerow do usunieca z zawartoscia {nazwy[j]}: ");
-                            int temp = Int32.Parse(Console.ReadLine());
-                            if (Enumerable.Range(1, 8).Contains(temp))
-                            {
-                                ilosci[j] = Int32.Parse(Console.ReadLine());
-                                Console.WriteLine();
-                            }
-                            else
-                            {
-                                goto B;
-                            }
+                            ilosci[j] = Int32.Parse(Console.ReadLine());
+                            Console.WriteLine();
+                   
                             if (ilosci[j] == 0)
                             {
                                 goto S;
@@ -743,9 +772,9 @@ K:
                     }
                     else
                     {
-                        Console.Write($"Podaj ilosc kontenerow z zawartoscia {nazwy[co]}: ");
-                        u_ilosci[co] = int.Parse(Console.ReadLine());
-                        su.Write(nazwy[co] + ": ");
+                        Console.Write($"Podaj ilosc kontenerow z zawartoscia {nazwy[co-1]}: ");
+                        u_ilosci[co-1] = int.Parse(Console.ReadLine());
+                        su.Write(nazwy[co+1] + ": ");
                         su.WriteLine(u_ilosci[co]);
                     }
                 }
