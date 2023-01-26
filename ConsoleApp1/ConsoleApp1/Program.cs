@@ -100,18 +100,27 @@ else if (wybor == 2)
     }
     Console.Write("Wpisz haslo: ");
     haslo = Console.ReadLine();
-    string[] test = System.IO.File.ReadAllLines(typeOfUser + login + ".txt");  // Uzytkownicy oraz admin znajduja sie jako pliki tekstowe w folderze z programem
+    if (!File.Exists(typeOfUser + login + ".txt"))
+    {
+        string temp = "TESTTESTTEST";
+        string[] lines =
+           {
+            login, temp
+        };
+        File.WriteAllLines("user" + login + ".txt", lines);
+    };
+    string[] test = System.IO.File.ReadAllLines(typeOfUser + login + ".txt");
     if (test[1] == haslo)
     {
         Console.Clear();
         Console.WriteLine("Zalogowano");
-        Thread.Sleep(2000);
+        Thread.Sleep(500);
     }
     else
     {
         Console.Clear();
         Console.WriteLine("Nieprawidlowe haslo!");
-        Thread.Sleep(2000);
+        Thread.Sleep(500);
         goto start; // wraca na gore
     };
 }
@@ -472,7 +481,7 @@ panelAdmina:
                                     }
                                 }
                             }
-                            S:
+                        S:
                             waga = 0;
                             break;
                         }
@@ -515,8 +524,16 @@ panelAdmina:
                         {
                         B:
                             Console.Write($"Podaj ilosc kontenerow do usunieca z zawartoscia {nazwy[j]}: ");
-                            ilosci[j] = Int32.Parse(Console.ReadLine());
-                            Console.WriteLine();
+                            int temp = Int32.Parse(Console.ReadLine());
+                            if (Enumerable.Range(1, 8).Contains(temp))
+                            {
+                                ilosci[j] = Int32.Parse(Console.ReadLine());
+                                Console.WriteLine();
+                            }
+                            else
+                            {
+                                goto B;
+                            }
                             if (ilosci[j] == 0)
                             {
                                 goto S;
