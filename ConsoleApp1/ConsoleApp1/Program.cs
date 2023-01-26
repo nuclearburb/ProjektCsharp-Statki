@@ -447,8 +447,8 @@ panelAdmina:
                             {
                                 statek[2, j + 4] = 0;
                                 statek[3, j + 4] = 0;
-                                statek[2, 3] -= statek[2, j + 4] * wagi[j];
-                                statek[3, 3] -= statek[3, j + 4] * wagi[j];
+                                statek[2, 3] = 0;
+                                statek[3, 3] = 0;
                                 goto S;
                             }
                             while (ilosci[j] != 0)
