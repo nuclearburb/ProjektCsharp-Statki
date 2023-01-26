@@ -437,7 +437,7 @@ panelAdmina:
                                 goto S;
                             }
                             waga += ilosci[j] * wagi[j];
-                            if (0 < (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
+                            if (0 > (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
@@ -523,7 +523,7 @@ panelAdmina:
                             }
 
                             waga += ilosci[j] * wagi[j];
-                            if (0 < (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
+                            if (0 > (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
