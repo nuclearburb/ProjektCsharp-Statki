@@ -473,7 +473,7 @@ panelAdmina:
                                 goto S;
                             }
                             waga += ilosci[j] * wagi[j];
-                            if (0 > (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
+                            if (0 < (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
@@ -483,8 +483,8 @@ panelAdmina:
                             {
                                 statek[2, j + 4] = 0;
                                 statek[3, j + 4] = 0;
-                                statek[2, 3] = 0;
-                                statek[3, 3] = 0;
+                                statek[2, 3] -= (statek[2, j + 4] * wagi[j]);
+                                statek[3, 3] -= (statek[3, j + 4] * wagi[j]);
                                 goto S;
                             }
                             while (ilosci[j] != 0)
@@ -569,7 +569,7 @@ panelAdmina:
                             }
 
                             waga += ilosci[j] * wagi[j];
-                            if (0 > (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
+                            if (0 < (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
@@ -579,8 +579,8 @@ panelAdmina:
                             {
                                 statek[0, j + 4] = 0;
                                 statek[1, j + 4] = 0;
-                                statek[0, 3] = 0;
-                                statek[1, 3] = 0;
+                                statek[0, 3] -= (ilosci[j] * (wagi[j] * 0.75f));
+                                statek[1, 3] -= (ilosci[j] * (wagi[j] * 0.75f));
                                 goto S;
                             }
                             while (ilosci[j] != 0)
