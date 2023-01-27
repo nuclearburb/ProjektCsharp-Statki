@@ -83,6 +83,11 @@ if (wybor == 1)
         };
 
     File.WriteAllLines("user" + login + ".txt", lines); // Tworzy nowy plik tekstowy dla kazdego uzytkownika 
+
+    Console.Clear();
+    Console.WriteLine("Pomyslnie udało sie zarejerstrować. Zaloguj się.");
+    Thread.Sleep(2000);
+
     goto start;
 }
 
@@ -473,7 +478,7 @@ panelAdmina:
                                 goto S;
                             }
                             waga += ilosci[j] * wagi[j];
-                            if (0 < (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
+                            if (0 > (statek[2, j + 4] + statek[3, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
@@ -481,10 +486,17 @@ panelAdmina:
                             }
                             if (ilosci[j] == statek[2, j + 4] + statek[3, j + 4])
                             {
+
+                                float temp1=0, temp2=0;
+
+                                temp1 = statek[2, j + 4] * wagi[j];
+                                temp2 = statek[3, j + 4] * wagi[j];
+
                                 statek[2, j + 4] = 0;
                                 statek[3, j + 4] = 0;
-                                statek[2, 3] -= (statek[2, j + 4] * wagi[j]);
-                                statek[3, 3] -= (statek[3, j + 4] * wagi[j]);
+
+                                statek[2, 3] -= temp1;
+                                statek[3, 3] -= temp2;
                                 goto S;
                             }
                             while (ilosci[j] != 0)
@@ -569,7 +581,7 @@ panelAdmina:
                             }
 
                             waga += ilosci[j] * wagi[j];
-                            if (0 < (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
+                            if (0 > (statek[0, j + 4] + statek[1, j + 4] - ilosci[j]))
                             {
                                 Console.WriteLine("Brak kontenerow na strefie");
                                 ilosci[j] = 0;
@@ -577,10 +589,16 @@ panelAdmina:
                             }
                             if (ilosci[j] == statek[0, j + 4] + statek[1, j + 4])
                             {
+                                float temp1 = 0, temp2 = 0;
+
+                                temp1 = statek[0, j + 4] * wagi[j] * 0.75f;
+                                temp2 = statek[1, j + 4] * wagi[j] * 0.75f;
+
                                 statek[0, j + 4] = 0;
                                 statek[1, j + 4] = 0;
-                                statek[0, 3] -= (ilosci[j] * (wagi[j] * 0.75f));
-                                statek[1, 3] -= (ilosci[j] * (wagi[j] * 0.75f));
+
+                                statek[0, 3] -= temp1;
+                                statek[1, 3] -= temp2;
                                 goto S;
                             }
                             while (ilosci[j] != 0)
